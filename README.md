@@ -1,22 +1,23 @@
-# ember-team-fe
+# Ember Team Management System
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This is an Ember.js application for managing teams and their members. The application allows you to create, update, and delete teams and members.
 
-## Prerequisites
+## Setup Instructions
 
-You will need the following things properly installed on your computer.
+### Prerequisites
 
-* [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with npm)
-* [Ember CLI](https://ember-cli.com/)
-* [Google Chrome](https://google.com/chrome/)
+- Node.js (v12.x, v14.x, or >= v16.x)
+- npm (v6.x or v7.x)
+- Ember CLI
 
-## Installation
+### Installation
 
-* `git clone <repository-url>` this repository
-* `cd ember-team-fe`
-* `npm install`
+1. Clone the repository:
+
+   ```sh
+   git clone https://github.com/your-username/ember-team-management.git
+   cd ember-team-management
+   ```
 
 ## Running / Development
 
