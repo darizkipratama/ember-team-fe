@@ -1,10 +1,53 @@
-<div class="flex flex-wrap">
-    {{#each @lists as |member|}}
-        <div class="w-1/3 p-4">
-            <div class="bg-white rounded-lg shadow-lg p-4">
-                <h2 class="text-xl font-bold text-blue-700">{{member.memberName}}</h2>
-                <p class="text-gray-700">{{member.memberRole}}</p>
-            </div>
-        </div>
-    {{/each}}
+<div class="flex justify-between items-center">
+  <h1 class="text-2xl font-bold text-blue-700">Members</h1>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    type="button"
+    {{on "click" (fn this.openModal null @teamId)}}>
+    Add Member
+  </button>
 </div>
+
+<div class="flex flex-wrap">
+  {{#each this.lists as |member|}}
+    <div class="w-1/3 p-4">
+      <div class="bg-white rounded-lg shadow-lg p-4">
+        <h2 class="text-xl font-bold text-blue-700">{{member.memberName}}</h2>
+        <p class="text-gray-700">{{member.memberRole}}</p>
+        <button type="button"
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2" {{on "click" (fn this.openModal member @teamId)}}>
+          <i class="fas fa-edit"></i>
+        </button>
+        <button type="button"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2" {{on "click" (fn this.handleDelete member)}}>
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+  {{/each}}
+</div>
+
+{{#if this.isModalOpen}}
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white p-8 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-4">{{if this.isEdit "Edit Member" "Add Member"}}</h2>
+      <form {{on "submit" this.handleFormSubmit}}>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="memberName">Member Name</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="memberName" type="text" value={{this.selectedMember.memberName}} {{on "input" this.updateMemberName}}>
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700 text-sm font-bold mb-2" for="memberRole">Member Role</label>
+          <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="memberRole" type="text" value={{this.selectedMember.memberRole}} {{on "input" this.updateMemberRole}}>
+        </div>
+        <div class="flex items-center justify-between">
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+            {{if this.isEdit "Update" "Create"}}
+          </button>
+          <button class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" {{on "click" this.closeModal}}>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{{/if}}
