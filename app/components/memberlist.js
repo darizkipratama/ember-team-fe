@@ -1,20 +1,35 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+// import { didInsertElement } from '@ember/render-modifiers';
 
 export default class MemberlistComponent extends Component {
-  @tracked lists = this.args.lists;
+  @tracked lists = [];
   @tracked isModalOpen = false;
   @tracked isEdit = false;
   @tracked selectedMember = { memberName: '', memberRole: '' };
   @tracked teamId = this.args.teamId;
 
+
   @action
-  openModal(member = null, teamId = null) {
+  async loadMembers() {
+    try {
+      const response = await fetch(`http://localhost:3000/api/teams/${this.teamId}/members`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const members = await response.json();
+      this.lists = members;
+    } catch (error) {
+      console.error('Error fetching members:', error);
+    }
+  }
+
+  @action
+  openModal(member = null) {
     this.isModalOpen = true;
     this.isEdit = !!member;
     this.selectedMember = member || { memberName: '', memberRole: '' };
-    this.teamId = teamId;
   }
 
   @action
@@ -58,10 +73,8 @@ export default class MemberlistComponent extends Component {
       const result = await response.json();
       console.log('Success:', result);
 
-      // Update the lists with the new or updated member
       if (this.isEdit) {
-        const index = this.lists.findIndex(member => member.id === this.selectedMember.id);
-        this.lists[index] = result;
+        this.lists = this.lists.map(member => member.id === this.selectedMember.id ? result : member);
       } else {
         this.lists = [...this.lists, result];
       }
@@ -89,6 +102,8 @@ export default class MemberlistComponent extends Component {
       }
 
       console.log('Deleted:', member);
+
+      // Remove the deleted member from the lists
       this.lists = this.lists.filter(m => m.id !== member.id);
 
     } catch (error) {

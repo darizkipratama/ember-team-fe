@@ -1,5 +1,5 @@
-<div class="flex justify-between items-center">
-  <h1 class="text-2xl font-bold text-blue-700">Members</h1>
+<div {{did-insert this.loadMembers}} class="flex justify-between items-center">
+  <h1 class="text-2xl font-bold text-blue-700">&nbsp;</h1>
   <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
     type="button"
     {{on "click" (fn this.openModal null @teamId)}}>
@@ -29,7 +29,7 @@
 {{#if this.isModalOpen}}
   <div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white p-8 rounded-lg shadow-lg">
-      <h2 class="text-2xl font-bold mb-4">{{if this.isEdit "Edit Member" "Add Member"}}</h2>
+      <h6 class="text-gray-700 font-bold mb-4">{{if this.isEdit "Edit Member" "Add Member"}}</h6>
       <form {{on "submit" this.handleFormSubmit}}>
         <div class="mb-4">
           <label class="block text-gray-700 text-sm font-bold mb-2" for="memberName">Member Name</label>

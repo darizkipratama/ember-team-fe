@@ -10,17 +10,9 @@ module('Integration | Component | list-team', function (hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`<ListTeam />`);
+    await render(hbs`<Teamlist @teamId="1" />`);
 
-    assert.dom(this.element).hasText('');
-
-    // Template block usage:
-    await render(hbs`
-      <ListTeam>
-        template block text
-      </ListTeam>
-    `);
-
-    assert.dom(this.element).hasText('template block text');
+    assert.dom(this.element).containsText('Add Team');
   });
+
 });
